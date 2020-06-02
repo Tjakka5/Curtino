@@ -1,4 +1,103 @@
 #include <Arduino.h>
+
+#include "WiFi.h"
+#include "ESPAsyncWebServer.h"
+#include "ArduinoJson.h"
+
+const int ledPin = 2;
+int ledState = 0;
+
+const char* ssid = "koffiekoekjes";
+const char* password =  "herriehuis";
+ 
+AsyncWebServer server(80);
+
+void updateLedState() {
+  digitalWrite(ledPin, ledState);
+}
+
+void setLed(DynamicJsonDocument& json) {
+  boolean _state = json["state"];
+  int state = 0;
+  
+  if (json.containsKey("state")) {
+    Serial.println("Yes");
+  } else {
+    Serial.println("NO >:(");
+  }
+
+  Serial.println(_state);
+
+  if (_state == true) {
+    state = 1;
+  } else if (_state == false) {
+    state = 0;
+  }
+
+  ledState = state;
+
+  updateLedState();
+}
+
+void getLed(DynamicJsonDocument json) {
+
+}
+
+void toggleLed(DynamicJsonDocument json) {
+
+}
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+
+  Serial.begin(9600);
+ 
+  WiFi.begin(ssid, password);
+ 
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(100);
+    Serial.println("Connecting to WiFi..");
+  }
+ 
+  Serial.println(WiFi.localIP());
+  
+  server.on(
+    "/",
+    HTTP_GET,
+    [](AsyncWebServerRequest * request) {
+      Serial.println("Hello!");
+
+      request->send(200);
+    }
+  );
+
+  server.on(
+    "/post",
+    HTTP_POST,
+    [](AsyncWebServerRequest * request) { },
+    NULL,
+    [](AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total) {
+      DynamicJsonDocument doc(len);
+
+      deserializeJson(doc, data);
+      String command = doc["command"];
+
+      if (command == "setLed") {
+        Serial.println("Executing setLed");
+        setLed(doc);
+      }
+
+      Serial.println(command);
+
+      request->send(200);
+  });
+ 
+  server.begin();
+}
+
+void loop() {}
+
+/*
 #include <WiFi.h>
 
 const char *ssid = "koffiekoekjes";
@@ -90,3 +189,4 @@ void loop()
     Serial.println("");
   }
 }
+*/
