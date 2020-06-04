@@ -9,6 +9,16 @@
     <StackLayout>
         <Button Text="Turn led ON!" Clicked="ButtonON_Clicked"/>
         <Button Text="Turn led OFF!" Clicked="ButtonOFF_Clicked"/>
+
+        <StackLayout Orientation="Vertical">
+            <Entry x:Name="entryMotorPosition"/>
+            <Button Text="Set motor position" Clicked="ButtonUpload_Clicked"/>
+        </StackLayout>
+
+        <StackLayout Orientation="Vertical">
+            <Label x:Name="textMotorPosition"/>
+            <Button Text="Get motor position" Clicked="ButtonGet_Clicked"/>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>
