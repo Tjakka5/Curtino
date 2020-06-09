@@ -3,8 +3,12 @@
 #include "WiFi.h"
 #include "ESPAsyncWebServer.h"
 #include "ArduinoJson.h"
+#include <TB6612FNG.h>
 
-#include <AccelStepper.h>
+#define AIN1 26
+#define AIN2 25
+#define PWMA 33
+#define STBY 27
 
 const int ledPin = 2;
 
@@ -12,8 +16,7 @@ const char* ssid = "koffiekoekjes";
 const char* password =  "herriehuis";
  
 AsyncWebServer server(80);
-AccelStepper stepper(AccelStepper::FULL4WIRE, 26, 25, 33, 32);
-
+Tb6612fng motor(STBY, AIN1, AIN2, PWMA);
 
 void setLed(DynamicJsonDocument& json) {
   if (!json.containsKey("state")) {
@@ -31,15 +34,15 @@ void setMotorPosition(DynamicJsonDocument& json) {
   }
 
   int _position = json["position"];
-  
-  stepper.moveTo(_position);
 }
 
 String getMotorPosition(DynamicJsonDocument& json) {
+  /*
   long currentPosition = stepper.currentPosition();
+  */
 
   StaticJsonDocument<51> outJson;
-  outJson["position"] = currentPosition;
+  outJson["position"] = 0;
 
   String outString;
 
@@ -49,10 +52,9 @@ String getMotorPosition(DynamicJsonDocument& json) {
 }
 
 void setup() {
-  pinMode(ledPin, OUTPUT);
+  motor.begin();
 
-  stepper.setMaxSpeed(100);
-  stepper.setAcceleration(100);
+  pinMode(ledPin, OUTPUT);
 
   Serial.begin(9600);
  
@@ -101,5 +103,15 @@ void setup() {
 }
 
 void loop() {
-  stepper.run();
+
+  // 500ms forwards
+  motor.drive(0.5, 500);
+  // 500ms backwards
+  motor.drive(-0.5, 500);
+  // Full range of motor speed
+  for (auto i = 1; i <= 10; i += 1) {
+    motor.drive(0.1 * i, 200, false);
+  }
+  motor.brake();
+  delay(1000);
 }

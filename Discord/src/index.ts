@@ -1,7 +1,7 @@
 import { Client } from "discord.js";
 import request = require("request");
 
-const token = "NzE4NDA3ODcyMzg3NDgxNjUw.Xtobfw.gsAuDLqprZqznoWJ2dJ837UdV_4";
+const token = "NzE4NDA3ODcyMzg3NDgxNjUw.XtplGg.VwlVYd96gVGS6YVIEpQ5d7e3vfE";
 
 let client = new Client();
 
