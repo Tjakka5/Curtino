@@ -1,6 +1,7 @@
 import express from "express";
 import { NextFunction, Request, Response } from "express";
 var ping = require("ping");
+var axios = require("axios");
 
 const app = express();
 const port = 8080;
@@ -55,23 +56,40 @@ app.post("/registerDevice", (req, res) => {
   }
 });
 
-app.post("/getDeviceIP", (req, res) => {
-  let deviceID: DeviceID | undefined = req.body["deviceID"];
-
-  if (deviceID == undefined) {
+app.post("/sendCommand", (req, res) => {
+  let id: DeviceID | undefined = req.body['deviceID'];
+  if (id == undefined) {
     respond(res, 400);
   } else {
-    let deviceIP: DeviceIP | undefined = registeredDevices.get(deviceID);
-
-    if (deviceIP == undefined) {
-      respond(res, 400);
+    if (registeredDevices.has(id) == false) {
+      let ip: DeviceIP = registeredDevices.get(id);
+      axios.post(`${ip}/post`, req.body)
+        .then(function(response: any) {
+          respond(res, 200, response)
+        })
     } else {
-      respond(res, 200, {
-        deviceIP: deviceIP,
-      });
+      respond(res, 400)
     }
   }
-});
+})
+
+// app.post("/getDeviceIP", (req, res) => {
+//   let deviceID: DeviceID | undefined = req.body["deviceID"];
+
+//   if (deviceID == undefined) {
+//     respond(res, 400);
+//   } else {
+//     let deviceIP: DeviceIP | undefined = registeredDevices.get(deviceID);
+
+//     if (deviceIP == undefined) {
+//       respond(res, 400);
+//     } else {
+//       respond(res, 200, {
+//         deviceIP: deviceIP,
+//       });
+//     }
+//   }
+// });
 
 setInterval(cleanupDevices, 1000 * 60 * 10); // 10 minutes
 //setInterval(cleanupDevices, 1000 * 5); // 5 second
