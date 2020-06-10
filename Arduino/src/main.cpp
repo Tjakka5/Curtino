@@ -11,35 +11,45 @@
 #define STBY 27
 
 const int ledPin = 2;
+const int openCurtainSwitchPin = 35;
+const int closeCurtainSwitchPin = 34;
 
-const char* ssid = "koffiekoekjes";
-const char* password =  "herriehuis";
- 
+const char *ssid = "koffiekoekjes";
+const char *password = "herriehuis";
+
+const float curtainspeed = 10.0f;
+
 AsyncWebServer server(80);
 Tb6612fng motor(STBY, AIN1, AIN2, PWMA);
 
-void setLed(DynamicJsonDocument& json) {
-  if (!json.containsKey("state")) {
-    Serial.println("owo");
-    // TODO: Return fault code
-  }
+enum States
+{
+  Open,
+  Close,
+  Stop
+};
 
-  boolean _state = json["state"];
-  digitalWrite(ledPin, _state);
+States currentState = States::Stop;
+
+
+void openCurtain(DynamicJsonDocument &json)
+{
+  currentState = States::Open;
 }
 
-void setMotorPosition(DynamicJsonDocument& json) {
-  if (!json.containsKey("position")) {
-    // TODO: Return fault code
-  }
-
-  int _position = json["position"];
+void stopCurtain(DynamicJsonDocument &json)
+{
+  currentState = States::Stop;
 }
 
+void closeCurtain(DynamicJsonDocument &json)
+{
+  currentState = States::Close;
+}
+
+/*
 String getMotorPosition(DynamicJsonDocument& json) {
-  /*
   long currentPosition = stepper.currentPosition();
-  */
 
   StaticJsonDocument<51> outJson;
   outJson["position"] = 0;
@@ -50,68 +60,85 @@ String getMotorPosition(DynamicJsonDocument& json) {
 
   return outString;
 }
+*/
 
-void setup() {
+void setup()
+{
   motor.begin();
 
   pinMode(ledPin, OUTPUT);
+  pinMode(openCurtainSwitchPin, INPUT);  
+  pinMode(closeCurtainSwitchPin, INPUT);
 
   Serial.begin(9600);
- 
+
   WiFi.begin(ssid, password);
- 
-  while (WiFi.status() != WL_CONNECTED) {
+
+  while (WiFi.status() != WL_CONNECTED)
+  {
     delay(100);
     Serial.println("Connecting to WiFi..");
   }
- 
+
   Serial.println(WiFi.localIP());
-  
-  server.on(
-    "/",
-    HTTP_GET,
-    [](AsyncWebServerRequest * request) {
-      request->send(200, "text/html", "<h1>Curino<h1>");
-    }
-  );
 
   server.on(
-    "/post",
-    HTTP_POST,
-    [](AsyncWebServerRequest * request) { },
-    NULL,
-    [](AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total) {
-      DynamicJsonDocument doc(len);
+      "/",
+      HTTP_GET,
+      [](AsyncWebServerRequest *request) {
+        request->send(200, "text/html", "<h1>Curino<h1>");
+      });
 
-      deserializeJson(doc, data);
-      String command = doc["command"];
+  server.on(
+      "/post",
+      HTTP_POST,
+      [](AsyncWebServerRequest *request) {},
+      NULL,
+      [](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
+        DynamicJsonDocument doc(len);
 
-      if (command == "setLed") {
-        setLed(doc);
-      } else if (command == "setMotorPosition") {
-        setMotorPosition(doc);
-      } else if (command == "getMotorPosition") {
-        String out = getMotorPosition(doc);
-        request->send(200, "application/json", out);
-      }
+        deserializeJson(doc, data);
+        String command = doc["command"];
 
-      Serial.println(command);
-      request->send(200);
-  });
- 
+        if (command == "openCurtain")
+        {
+          openCurtain(doc);
+        }
+        else if (command == "closeCurtain")
+        {
+          closeCurtain(doc);
+        }
+        else if (command == "stopCurtain")
+        {
+          stopCurtain(doc);
+        }
+
+        Serial.println(command);
+        request->send(200);
+      });
+
   server.begin();
 }
 
-void loop() {
+void loop()
+{
+  switch (currentState)
+  {
+  case States::Open: // Opening curtain.
+    motor.drive(curtainspeed);
+    Serial.println(digitalRead(openCurtainSwitchPin));
+    if (digitalRead(openCurtainSwitchPin) == 1)
+      currentState = States::Stop;
+    break;
 
-  // 500ms forwards
-  motor.drive(0.5, 500);
-  // 500ms backwards
-  motor.drive(-0.5, 500);
-  // Full range of motor speed
-  for (auto i = 1; i <= 10; i += 1) {
-    motor.drive(0.1 * i, 200, false);
+  case States::Close: // Closing curtain.
+    motor.drive(-curtainspeed);
+    if (digitalRead(closeCurtainSwitchPin) == 1)
+      currentState = States::Stop;
+    break;
+
+  case States::Stop: // Stop the motor.
+    motor.brake();//als code niet werkt dan mag justin niet boos worden
+    break;
   }
-  motor.brake();
-  delay(1000);
 }
