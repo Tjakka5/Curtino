@@ -4,7 +4,7 @@ var ping = require("ping");
 var axios = require("axios");
 
 const app = express();
-const port = 8080;
+const port = 80;
 
 type DeviceIP = string;
 type DeviceID = string;
@@ -42,6 +42,12 @@ const cleanupDevices = (): void => {
 app.use(express.json());
 app.use(errorHandler);
 
+app.post("/ping", (_req, res) => {
+  respond(res, 200, {
+    "value": "pong",
+  });
+})
+
 app.post("/registerDevice", (req, res) => {
   let deviceID: DeviceID | undefined = req.body["deviceID"];
   let deviceIP: DeviceIP | undefined = req.body["deviceIP"];
@@ -57,6 +63,8 @@ app.post("/registerDevice", (req, res) => {
 });
 
 app.post("/sendCommand", (req, res) => {
+  respond(res, 200)
+
   let id: DeviceID | undefined = req.body['deviceID'];
   if (id == undefined) {
     respond(res, 400);
@@ -66,6 +74,9 @@ app.post("/sendCommand", (req, res) => {
       axios.post(`${ip}/post`, req.body)
         .then(function(response: any) {
           respond(res, 200, response)
+        })
+        .catch((err: any) => {
+          console.log(err);
         })
     } else {
       respond(res, 400)
