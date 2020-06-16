@@ -9,7 +9,7 @@ WiFiClient client;
 char server[] = "84.82.92.7";
 
 void doOpenRequest() {
-  char json[] = "{\"command\": \"openCurtain\", \"deviceID\": \"bigPeePeeESP\"}";
+  char json[] = "{\"command\": \"openCurtain\", \"deviceID\": \"BigPeePeeESP\"}";
 
   if (client.connect(server, 80)) {
     Serial.println("connected to server");
@@ -26,7 +26,7 @@ void doOpenRequest() {
 }
 
 void doCloseRequest() {
-  char json[] = "{\"command\": \"CloseCurtain\", \"deviceID\": \"bigPeePeeESP\"}";
+  char json[] = "{\"command\": \"closeCurtain\", \"deviceID\": \"BigPeePeeESP\"}";
 
   if (client.connect(server, 80)) {
     Serial.println("connected to server");
@@ -43,6 +43,9 @@ void doCloseRequest() {
 }
 
 void setup() {
+  pinMode(34, INPUT);
+  pinMode(35, INPUT);
+
   WiFi.begin(ssid, password);
   Serial.begin(9600);
 
@@ -51,16 +54,14 @@ void setup() {
     delay(100);
     Serial.println("Connecting to WiFi..");
   }
-  
-  while (true) {
-    doOpenRequest();
-    delay(10000);
-    doCloseRequest();
-    delay(10000);
-  }
 }
 
 void loop() {
-  
+  if (digitalRead(35) == HIGH) {
+    doOpenRequest();
+  }
+  if (digitalRead(34) == HIGH) {
+    doCloseRequest();
+  }
 }
 
