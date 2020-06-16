@@ -27,8 +27,8 @@ AsyncWebServer server(80);
 Tb6612fng motor(STBY, AIN1, AIN2, PWMA);
 WiFiClient client;
 
-char serverIP[] = "192.168.2.13";
-char json[] = "{\"deviceID\": \"BigPeePeeESP\", \"deviceIP\": \"192.168.2.15\"}";
+char serverIP[] = "192.168.2.19";
+char json[] = "{\"deviceID\": \"BigPeePeeESP\", \"deviceIP\": \"192.168.2.11\"}";
 
 enum States
 {
@@ -61,8 +61,8 @@ int timeToCloseFromMidnight = 0;
 int lightRequiredToOpen = 0;
 int lightRequiredToClose = 0;
 
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+//WiFiUDP ntpUDP;
+//NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
 
 void openCurtain()
 {
@@ -159,7 +159,7 @@ void setup()
     client.println();
   } 
 
-  timeClient.begin();
+  //timeClient.begin();
 
 
   server.on(
@@ -224,7 +224,7 @@ bool isClosed() {
 
 void loop()
 {
-  timeClient.update();
+  //timeClient.update();
 
   int _lightValue = analogRead(ldrpin);
   int lightValue = map(_lightValue, 0, 4095, 0, 100);

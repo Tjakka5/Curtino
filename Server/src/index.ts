@@ -14,7 +14,6 @@ const registeredDevices: Map<DeviceID, DeviceIP> = new Map();
 const respond = (res: Response, statusCode: number, data: any = {}): void => {
   data.success = statusCode == 200;
 
-  res.setHeader("Content-Type", "application/json");
   res.status(statusCode);
   res.json(data);
 };
@@ -56,29 +55,29 @@ app.post("/registerDevice", (req, res) => {
     respond(res, 400);
   } else {
     registeredDevices.set(deviceID, deviceIP);
-    console.log(`${deviceIP} registered`);
+    console.log(`${deviceIP} registered under ${deviceID}`);
 
     respond(res, 200);
   }
 });
 
 app.post("/sendCommand", (req, res) => {
-  respond(res, 200)
-
   let id: DeviceID | undefined = req.body['deviceID'];
   if (id == undefined) {
     respond(res, 400);
   } else {
-    if (registeredDevices.has(id) == false) {
+    if (registeredDevices.has(id)) {
       let ip: DeviceIP = registeredDevices.get(id);
-      axios.post(`${ip}/post`, req.body)
-        .then(function(response: any) {
-          respond(res, 200, response)
+      console.log(`redirecting to ${id}`);
+      axios.post(`http://${ip}/post`, req.body)
+        .then(function(_response: any) {
+          respond(res, 200)
         })
         .catch((err: any) => {
           console.log(err);
         })
     } else {
+      console.log(`id ${id} not found`);
       respond(res, 400)
     }
   }
