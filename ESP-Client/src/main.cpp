@@ -25,6 +25,10 @@ float lightValue = 0.0f;
 
 AsyncWebServer server(80);
 Tb6612fng motor(STBY, AIN1, AIN2, PWMA);
+WiFiClient client;
+
+char serverIP[] = "192.168.2.13";
+char json[] = "{\"deviceID\": \"BigPeePeeESP\", \"deviceIP\": \"192.168.2.15\"}";
 
 enum States
 {
@@ -143,9 +147,20 @@ void setup()
     Serial.println("Connecting to WiFi..");
   }
 
+  
+  Serial.println(WiFi.localIP());
+
+  if (client.connect(serverIP, 80)) {
+    client.println("POST /registerDevice HTTP/1.1");
+    client.println("Content-Type: application/json");
+    client.print("Content-Length: "); client.println(strlen(json));
+    client.println();
+    client.println(json);
+    client.println();
+  } 
+
   timeClient.begin();
 
-  Serial.println(WiFi.localIP());
 
   server.on(
       "/",
@@ -213,8 +228,6 @@ void loop()
 
   int _lightValue = analogRead(ldrpin);
   int lightValue = map(_lightValue, 0, 4095, 0, 100);
-
-  Serial.println(lightValue); 
 
   if (checkingType == CheckingType::Light) {
     if (currentState != States::Opening && !isOpen() && lightValue >= lightRequiredToOpen)
