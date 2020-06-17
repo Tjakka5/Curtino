@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "prestart": "tsc",
+    "start": "node dist/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,7 +15,7 @@
   "dependencies": {
     "@types/node": "^14.0.11",
     "@types/request": "^2.48.5",
-    "discord.js": "^12.2.0",
-    "request": "^2.88.2"
+    "axios": "^0.19.2",
+    "discord.js": "^12.2.0"
   }
 }

@@ -1,63 +1,34 @@
 import { Client } from "discord.js";
-import request = require("request");
-
-const token = "NzE4NDA3ODcyMzg3NDgxNjUw.XtplGg.VwlVYd96gVGS6YVIEpQ5d7e3vfE";
+import axios from "axios";
+import config = require("./config.json");
 
 let client = new Client();
 
 client
-  .login(token)
+  .login(config.client.token)
   .then(() => {
-    console.log("Logged in");
+    console.log(`Logged in as ${client.user?.id}`);
 
     client.on("message", (msg) => {
       if (msg.author.bot) {
         return;
       }
 
-      if (!msg.content.startsWith("!curtino")) {
+      if (!msg.content.startsWith(config.client.prefix)) {
         return;
       }
 
-      if (msg.content.indexOf("ledOn") != -1) {
-        console.log("Yes daddy");
-        request.post(
-          "http://192.168.2.15/post/",
-          {
-            json: {
-              command: "setLed",
-              state: true,
-            },
-          },
-          (error, res, body) => {
-            if (error) {
-              msg.reply(`Something went wrong. StatusCode: ${res.statusCode}`);
-              return;
-            }
-
-            msg.reply("Led turned on")
-          }
-        );
-      }
-
-      if (msg.content.indexOf("ledOff") != -1) {
-        request.post(
-          "http://192.168.2.15/post/",
-          {
-            json: {
-              command: "setLed",
-              state: false,
-            },
-          },
-          (error, res, body) => {
-            if (error) {
-              msg.reply(`Something went wrong. StatusCode: ${res.statusCode}`);
-              return;
-            }
-
-            msg.reply("Led turned off");
-          }
-        );
+      if (msg.content.indexOf("openCurtain") != -1) {
+        axios.post(`${config.serverURL}sendCommand/`, {
+          deviceID: "BigPeePeeESP",
+          command: "openCurtain"
+        })
+        .then((response) => {
+          msg.reply("Succes");
+        })
+        .catch((error) => {
+          msg.reply("Nope");
+        })
       }
     });
   })

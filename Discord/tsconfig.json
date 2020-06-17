@@ -3,7 +3,7 @@
   "include": ["src/*"],
   "compilerOptions": {
     "target": "ES2015",
-    "module": "umd",
+    "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
 
@@ -17,6 +17,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
 
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   }
 }
