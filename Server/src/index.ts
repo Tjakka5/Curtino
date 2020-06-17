@@ -70,8 +70,8 @@ app.post("/sendCommand", (req, res) => {
       let ip: DeviceIP = registeredDevices.get(id);
       console.log(`redirecting to ${id}`);
       axios.post(`http://${ip}/post`, req.body)
-        .then(function(_response: any) {
-          respond(res, 200)
+        .then(function(response: {data: {}}) {
+          respond(res, 200, response.data);
         })
         .catch((err: any) => {
           console.log(err);
