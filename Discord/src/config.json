@@ -1,0 +1,26 @@
+{
+    "prefix": "!curtino",
+
+    "responses": {
+        "commandNotFound": "Bro wat wil je van me??",
+        "success": "Het werkt!",
+        "fail": "Het werkt niet.",
+        "requestError": "Oeei dat ging fout",
+        "noCommand": "Bro je hebt geen commando gegevent shake my smh",
+
+        "curtainState": {
+            "curtainOpen": "Is open",
+            "curtainClosed": "Is dicht"
+        },
+
+        "curtainTime": {
+            "noTime": "Dat is geen tijd, poepchinees"
+
+        },
+        "curtainLight": {
+            "noLight": "Dat geen lichtwaarde",
+            "incorrectOrder": "Dat is verkeerd om",
+            "invalidRange": "Die waarden zijn te groot/klein"
+        }
+    }
+}
