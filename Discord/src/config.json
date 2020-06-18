@@ -8,10 +8,7 @@
         "requestError": "Oeei dat ging fout",
         "noCommand": "Bro je hebt geen commando gegevent shake my smh",
 
-        "curtainState": {
-            "curtainOpen": "Is open",
-            "curtainClosed": "Is dicht"
-        },
+        "curtainState": "Curtain is",
 
         "curtainTime": {
             "noTime": "Dat is geen tijd, poepchinees"
