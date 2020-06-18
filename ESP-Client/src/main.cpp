@@ -93,9 +93,20 @@ String commandStopCurtain(DynamicJsonDocument &json)
 }
 
 String commandGetCurtainStatus(DynamicJsonDocument &json) {
-  StaticJsonDocument<67> outJson;
+  StaticJsonDocument<68> outJson;
   outJson["success"] = true;
-  outJson["isOpen"] = digitalRead(openCurtainSwitchPin);
+
+  if (currentState == States::Closing) {
+    outJson["status"] = "closing";
+  } else if (currentState == States::Opening) {
+    outJson["status"] = "opening";
+  } else if (digitalRead(openCurtainSwitchPin)) {
+    outJson["status"] = "open";
+  } else if (digitalRead(closeCurtainSwitchPin)) {
+    outJson["status"] = "closed";
+  } else {
+    outJson["status"] = "idle";
+  }
 
   String outString;
 
