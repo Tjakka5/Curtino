@@ -27,7 +27,7 @@ AsyncWebServer server(80);
 Tb6612fng motor(STBY, AIN1, AIN2, PWMA);
 WiFiClient client;
 
-char serverIP[] = "192.168.2.19";
+char serverIP[] = "192.168.2.13";
 char json[] = "{\"deviceID\": \"BigPeePeeESP\", \"deviceIP\": \"192.168.2.11\"}";
 
 enum States
@@ -64,61 +64,49 @@ int lightRequiredToClose = 0;
 //WiFiUDP ntpUDP;
 //NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
 
-void openCurtain()
+String defaultSuccess = "{ \"success\": true }";
+String defaultFail = "{ \"success\": false }";
+
+String openCurtain()
 {
   currentState = States::Opening;
+  return defaultSuccess;
 }
 
-void commandOpenCurtain(DynamicJsonDocument &json)
+String commandOpenCurtain(DynamicJsonDocument &json)
 {
   openCurtain();
+  return defaultSuccess;
 }
 
 
-void stopCurtain()
+String stopCurtain()
 {
   currentState = States::Idle;
+  return defaultSuccess;
 }
 
-void commandStopCurtain(DynamicJsonDocument &json)
+String commandStopCurtain(DynamicJsonDocument &json)
 {
   stopCurtain();
+  return defaultSuccess;
 }
 
+String commandGetCurtainStatus(DynamicJsonDocument &json) {
+  StaticJsonDocument<68> outJson;
+  outJson["success"] = true;
 
-void closeCurtain()
-{
-  currentState = States::Closing;
-}
-
-void commandCloseCurtain(DynamicJsonDocument &json)
-{
-  closeCurtain();
-}
-
-
-void configureTime(DynamicJsonDocument &json)
-{
-  int openTime = atoi(json["openTime"]);
-  int closeTime = atoi(json["closeTime"]);
-}
-
-void configureLight(DynamicJsonDocument &json)
-{
-  //lightRequiredToClose = json["lightRequiredToClose"];
-  //lightRequiredToOpen = json["lightRequiredToOpen"];
-  lightRequiredToClose = 40;
-  lightRequiredToOpen = 70;
-
-  checkingType = CheckingType::Light;
-}
-
-/*
-String getMotorPosition(DynamicJsonDocument& json) {
-  long currentPosition = stepper.currentPosition();
-
-  StaticJsonDocument<51> outJson;
-  outJson["position"] = 0;
+  if (currentState == States::Closing) {
+    outJson["status"] = "closing";
+  } else if (currentState == States::Opening) {
+    outJson["status"] = "opening";
+  } else if (digitalRead(openCurtainSwitchPin)) {
+    outJson["status"] = "open";
+  } else if (digitalRead(closeCurtainSwitchPin)) {
+    outJson["status"] = "closed";
+  } else {
+    outJson["status"] = "idle";
+  }
 
   String outString;
 
@@ -126,7 +114,37 @@ String getMotorPosition(DynamicJsonDocument& json) {
 
   return outString;
 }
-*/
+
+String closeCurtain()
+{
+  currentState = States::Closing;
+  return defaultSuccess;
+}
+
+String commandCloseCurtain(DynamicJsonDocument &json)
+{
+  closeCurtain();
+  return defaultSuccess;
+}
+
+
+String configureTime(DynamicJsonDocument &json)
+{
+  //int openTime = atoi(json["openTime"]);
+  //int closeTime = atoi(json["closeTime"]);
+  return defaultSuccess;
+}
+
+String configureLight(DynamicJsonDocument &json)
+{
+  //lightRequiredToClose = json["lightRequiredToClose"];
+  //lightRequiredToOpen = json["lightRequiredToOpen"];
+  lightRequiredToClose = 40;
+  lightRequiredToOpen = 70;
+
+  checkingType = CheckingType::Light;
+  return defaultSuccess;
+}
 
 void setup()
 {
@@ -184,29 +202,37 @@ void setup()
 
         Serial.println(command);
 
+        String result;
+
         if (command == "openCurtain")
         {
-          commandOpenCurtain(doc);
+          result = commandOpenCurtain(doc);
         }
         else if (command == "closeCurtain")
         {
-          commandCloseCurtain(doc);
+          result = commandCloseCurtain(doc);
         }
         else if (command == "stopCurtain")
         {
-          commandStopCurtain(doc);
+          result = commandStopCurtain(doc);
+        }
+        else if (command == "getCurtainStatus") 
+        {
+          result = commandGetCurtainStatus(doc);
         }
         else if (command == "configureTime")
         {
-          configureTime(doc);
+          result = configureTime(doc);
         }
         else if (command == "configureLight")
         {
-          configureLight(doc);
+          result = configureLight(doc);
         }
-
+        else {
+          result = defaultFail;
+        }
         
-        request->send(200);
+        request->send(200, "application/json", result);
       });
 
   server.begin();

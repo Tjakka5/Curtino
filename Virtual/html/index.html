@@ -1,0 +1,58 @@
+<!-- ./client/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="display: flex">
+      <label>VirtualCurtino_0:</label>
+      <input id="VirtualCurtino_0" type="range" value=0 disabled style="margin-left: 20px;">
+    </div>
+    <div style="display: flex">
+      <label>VirtualCurtino_1:</label>
+      <input id="VirtualCurtino_1" type="range" value=0 disabled style="margin-left: 20px;">
+    </div>
+    <div style="display: flex">
+      <label>VirtualCurtino_2:</label>
+      <input id="VirtualCurtino_2" type="range" value=0 disabled style="margin-left: 20px;">
+    </div>
+    <div style="display: flex">
+      <label>VirtualCurtino_3:</label>
+      <input id="VirtualCurtino_3" type="range" value=0 disabled style="margin-left: 20px;">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script>
+      const socket = io("http://localhost:80/");
+
+      socket.on("sendCommand", function(data) {
+        let command = data["command"];
+        let element = document.getElementById(data["deviceID"]);
+
+        if (command == "openCurtain") {
+          let interval = setInterval(() => {
+            element.value = Math.max(0, element.value - 1);
+            console.log(element.value);
+
+            if (element.value == 0) {
+              clearInterval(interval);
+            }
+          }, 20)
+        } else if (command == "closeCurtain") {
+          let interval = setInterval(() => {
+            element.value = Math.min(100, element.value - -1);
+            console.log(element.value);
+
+            if (element.value == 100) {
+              clearInterval(interval);
+            }
+          }, 20)
+        }
+      })
+    </script>
+  </body>
+</html>

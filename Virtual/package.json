@@ -1,0 +1,29 @@
+{
+  "name": "virtual",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "prestart": "tsc",
+    "start": "node dist/index.js",
+    "watchSource": "tsc --watch",
+    "watchBuild": "nodemon dist/index.js",
+    "watch": "concurrently --kill-others \"npm run watchSource\" \"npm run watchBuild\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.6",
+    "@types/node": "^14.0.13",
+    "@types/socket.io": "^2.1.8",
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0",
+    "typescript": "^3.9.5"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4"
+  }
+}
