@@ -33,7 +33,9 @@ namespace App
 				{ "state", true }
 			};
 
+			//httpClient.PostAsync(requestURL, new HttpContent());
 			HttpResponseMessage response = await httpClient.PostAsync(requestURL, new StringContent(data.ToString(), Encoding.UTF8, "application/json"));
+			//HttpResponseMessage response = await httpClient.GetAsync(requestURL);
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
@@ -52,7 +54,9 @@ namespace App
                 { "state", false }
             };
 
+            //httpClient.PostAsync(requestURL, new HttpContent());
             HttpResponseMessage response = await httpClient.PostAsync(requestURL, new StringContent(data.ToString(), Encoding.UTF8, "application/json"));
+            //HttpResponseMessage response = await httpClient.GetAsync(requestURL);
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
@@ -60,44 +64,11 @@ namespace App
             }
         }
 
-		private async void ButtonUpload_Clicked(object sender, EventArgs e)
-		{
-            HttpClient httpClient = new HttpClient();
+        private void OpenCurtainControls(object sender, EventArgs e)
+        {
+            var myValue = ((Button)sender).Text;
 
-            JObject data = new JObject
-            {
-                { "command", "setMotorPosition" },
-
-                { "position", Int32.Parse(entryMotorPosition.Text) }
-            };
-
-            HttpResponseMessage response = await httpClient.PostAsync(requestURL, new StringContent(data.ToString(), Encoding.UTF8, "application/json"));
-            if (response.IsSuccessStatusCode)
-            {
-                string content = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(content);
-            }
+            Navigation.PushAsync(new ControlPage(myValue));
         }
-
-		private async void ButtonGet_Clicked(object sender, EventArgs e)
-		{
-            HttpClient httpClient = new HttpClient();
-
-            JObject data = new JObject
-            {
-                { "command", "getMotorPosition" },
-            };
-
-            HttpResponseMessage response = await httpClient.PostAsync(requestURL, new StringContent(data.ToString(), Encoding.UTF8, "application/json"));
-            if (response.IsSuccessStatusCode)
-            {
-                string content = await response.Content.ReadAsStringAsync();
-                JObject jsonResponse = JObject.Parse(content);
-
-                textMotorPosition.Text = jsonResponse["position"].ToString();
-               
-                Console.WriteLine(content);
-            }
-        }
-	}
+    }
 }

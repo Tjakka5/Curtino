@@ -5,20 +5,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="App.MainPage">
-
-    <StackLayout>
-        <Button Text="Turn led ON!" Clicked="ButtonON_Clicked"/>
-        <Button Text="Turn led OFF!" Clicked="ButtonOFF_Clicked"/>
-
-        <StackLayout Orientation="Vertical">
-            <Entry x:Name="entryMotorPosition"/>
-            <Button Text="Set motor position" Clicked="ButtonUpload_Clicked"/>
-        </StackLayout>
-
-        <StackLayout Orientation="Vertical">
-            <Label x:Name="textMotorPosition"/>
-            <Button Text="Get motor position" Clicked="ButtonGet_Clicked"/>
-        </StackLayout>
+    
+    <StackLayout Margin="10">
+        <Button Text="BigPeePeeESP" Clicked="OpenCurtainControls"/>
+        <Button Text="VirtualCurtino_0" Clicked="OpenCurtainControls"/>
+        <Button Text="VirtualCurtino_1" Clicked="OpenCurtainControls"/>
+        <Button Text="VirtualCurtino_2" Clicked="OpenCurtainControls"/>
+        <Button Text="VirtualCurtino_3" Clicked="OpenCurtainControls"/>
     </StackLayout>
 
 </ContentPage>

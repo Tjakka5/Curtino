@@ -2011,24 +2011,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Laptop-Justin\\.nuget\\packages\\": {},
+    "C:\\Users\\MFoek\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App.Android\\App.Android.csproj",
+      "projectUniqueName": "D:\\Periode 4 - Project\\App\\App.Android\\App.Android.csproj",
       "projectName": "App.Android",
-      "projectPath": "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App.Android\\App.Android.csproj",
-      "packagesPath": "C:\\Users\\Laptop-Justin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App.Android\\obj\\",
+      "projectPath": "D:\\Periode 4 - Project\\App\\App.Android\\App.Android.csproj",
+      "packagesPath": "C:\\Users\\MFoek\\.nuget\\packages\\",
+      "outputPath": "D:\\Periode 4 - Project\\App\\App.Android\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Laptop-Justin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\MFoek\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -2042,8 +2042,8 @@
       "frameworks": {
         "monoandroid90": {
           "projectReferences": {
-            "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App\\App.csproj": {
-              "projectPath": "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App\\App.csproj"
+            "D:\\Periode 4 - Project\\App\\App\\App.csproj": {
+              "projectPath": "D:\\Periode 4 - Project\\App\\App\\App.csproj"
             }
           }
         }

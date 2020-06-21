@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App\\App.csproj": {}
+    "D:\\Periode 4 - Project\\App\\App\\App.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App\\App.csproj": {
+    "D:\\Periode 4 - Project\\App\\App\\App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App\\App.csproj",
+        "projectUniqueName": "D:\\Periode 4 - Project\\App\\App\\App.csproj",
         "projectName": "App",
-        "projectPath": "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App\\App.csproj",
-        "packagesPath": "C:\\Users\\Laptop-Justin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Laptop-Justin\\Documents\\Curtino\\App\\App\\obj\\",
+        "projectPath": "D:\\Periode 4 - Project\\App\\App\\App.csproj",
+        "packagesPath": "C:\\Users\\MFoek\\.nuget\\packages\\",
+        "outputPath": "D:\\Periode 4 - Project\\App\\App\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Laptop-Justin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\MFoek\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -71,7 +72,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

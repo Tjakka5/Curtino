@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="App.ControlPage">
+    <ContentPage.Content>
+        <StackLayout Margin="10">
+
+            <Label Text="Curtain Controls" HorizontalOptions="Center" FontSize="24" FontAttributes="Bold"/>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Open" HorizontalOptions="FillAndExpand" Clicked="Open_Curtain"/>
+                <Button Text="Close" HorizontalOptions="FillAndExpand" Clicked="Close_Curtain"/>
+                <Button Text="Stop" HorizontalOptions="FillAndExpand" Clicked="Stop_Curtain"/>
+            </StackLayout>
+
+            <Label Text="Info" HorizontalOptions="Center" FontSize="24" FontAttributes="Bold"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Curtain State"/>
+                <Label x:Name="CurtainStateText" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand" FontAttributes="Bold" Text="-"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Current Light Value"/>
+                <Label x:Name="CurrentLightValue" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand" FontAttributes="Bold" Text="?"/>
+            </StackLayout>
+
+            <Label Text="Settings" HorizontalOptions="Center" FontSize="24" FontAttributes="Bold"/>
+            <Label Text="Light Open Setting"/>
+            <Entry Keyboard="Numeric"/>
+            <Label Text="Light Close Setting"/>
+            <Entry Keyboard="Numeric"/>
+            
+            <Button Text="Submit" Clicked="Submit_Data"></Button>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
