@@ -58,33 +58,8 @@ void doCloseRequest() {
   }
 }
 
-void doTempToSheets() {
-  // constanten
-  float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
-
-  int value = analogRead(32);
-  float tempstep = log(10000 * (4095.0 / (float)value - 1.0));
-  float temp = (1.0 / (c1 + c2* tempstep + c3 * tempstep * tempstep * tempstep)) - 273.15;
-
-  Serial.println(temp);
-
-  httpsclient->GET(url + "value=" + String(temp) + "&tag=Temperatuur" + "&sheet=Groep06", host);
-}
-
-void setup() {
-  pinMode(32, INPUT); // opdracht c temperatuur
-  pinMode(34, INPUT); // knop 1 remote
-  pinMode(35, INPUT); // knop 2 remote
-
-  WiFi.begin(ssid, password);
-  Serial.begin(9600);
-
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(100);
-    Serial.println("Connecting to WiFi..");
-  }
-
+// esp32 workaround
+void initHttpsClient() {
   httpsclient = new HTTPSRedirect(httpsPort);
   httpsclient->setPrintResponseBody(false);
   httpsclient->setContentTypeHeader("application/json");
@@ -107,7 +82,37 @@ void setup() {
     Serial.println("Exiting...");
     return;
   }
+}
 
+void doTempToSheets() {
+  // constanten
+  float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
+
+  int value = analogRead(32);
+  float tempstep = log(10000 * (4095.0 / (float)value - 1.0));
+  float temp = (1.0 / (c1 + c2* tempstep + c3 * tempstep * tempstep * tempstep)) - 273.15;
+
+  Serial.println(temp);
+
+  httpsclient->GET(url + "value=" + String(temp) + "&tag=Temperatuur" + "&sheet=Groep06", host);
+  delete httpsclient;
+  initHttpsClient();
+}
+
+void setup() {
+  pinMode(32, INPUT); // opdracht c temperatuur
+  pinMode(34, INPUT); // knop 1 remote
+  pinMode(35, INPUT); // knop 2 remote
+
+  WiFi.begin(ssid, password);
+  Serial.begin(9600);
+
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(100);
+    Serial.println("Connecting to WiFi..");
+  }
+  initHttpsClient();
   nextmillis = millis();
 }
 
