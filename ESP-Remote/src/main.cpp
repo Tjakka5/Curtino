@@ -64,6 +64,8 @@ void initHttpsClient() {
   httpsclient->setPrintResponseBody(false);
   httpsclient->setContentTypeHeader("application/json");
 
+  Serial.println("Initializing httpsclient");
+
   // Try to connect for a maximum of 5 times
   bool flag = false;
   for (int i=0; i<5; i++){
@@ -92,11 +94,14 @@ void doTempToSheets() {
   float tempstep = log(10000 * (4095.0 / (float)value - 1.0));
   float temp = (1.0 / (c1 + c2* tempstep + c3 * tempstep * tempstep * tempstep)) - 273.15;
 
+  // omdat de esp32 blijkbaar geen setInsecure functie heeft verwijderen we elke keer de httpsclient library
+  // als we dit niet doen kan een error het hele systeem vastzetten
+  // ook hebben we wat aanpassingen moeten maken in de HTTPSRedirect (en zelfs de Wifisecure) library om dit te faciliteren
+  initHttpsClient();
   Serial.println(temp);
 
   httpsclient->GET(url + "value=" + String(temp) + "&tag=Temperatuur" + "&sheet=Groep06", host);
   delete httpsclient;
-  initHttpsClient();
 }
 
 void setup() {

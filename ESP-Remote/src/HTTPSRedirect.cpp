@@ -53,6 +53,7 @@ bool HTTPSRedirect::printRedir(void){
   // Make sure the input stream is cleared (as above) before making the call
   print(_Request);
 
+  // error handling verwijderd
   /*
   // Read HTTP Response Status lines
   while (connected()) {
