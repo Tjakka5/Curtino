@@ -481,3 +481,4 @@ D:\Periode 4 - Project\App\App.Android\obj\Debug\90\stamp\_ConvertResourcesCases
 D:\Periode 4 - Project\App\App.Android\obj\Debug\90\stamp\_GenerateJavaStubs.stamp
 D:\Periode 4 - Project\App\App.Android\obj\Debug\90\stamp\_GeneratePackageManagerJava.stamp
 D:\Periode 4 - Project\App\App.Android\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
+D:\Periode 4 - Project\App\App.Android\obj\Debug\90\stamp\_CleanIntermediateIfNeeded.stamp

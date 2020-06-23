@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,33 +13,70 @@ namespace App
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ControlPage : ContentPage
 	{
-		string curtain = "";
+		CurtainCommunication CurtainControls;
+		string curtino = "";
 
-		public ControlPage(string curtain)
+		public ControlPage(string curtino)
 		{
 			InitializeComponent();
-			this.curtain = curtain;
-			Title = curtain;
+			this.curtino = curtino;		
+			Title = curtino;			// Set the page title to the name of the curtino.
+
+			CurtainControls = new CurtainCommunication();
 		}
 
-		private void Submit_Data(object sender, EventArgs e)
+		private async void Submit_Data(object sender, EventArgs e)
 		{
-
+			JObject data = new JObject
+			{
+				{ "deviceID", curtino },
+				{ "command", "configureLight" },
+				{ "lightRequiredToOpen", Int32.Parse(LightOpenValue.Text) },
+				{ "lightRequiredToClose", Int32.Parse(LightCloseValue.Text) }
+			};
+			await CurtainControls.SendMessage(data);
 		}
 
-		private void Open_Curtain(object sender, EventArgs e)
+		private async void Open_Curtino(object sender, EventArgs e)
 		{
+			JObject data = new JObject
+			{
+				{ "deviceID", curtino },
+				{ "command", "openCurtain" }
+			};
+			var responseTask = CurtainControls.SendMessage(data);
+			await responseTask;
 
+			JObject response = JObject.Parse(responseTask.Result);
+			CurtainStateText.Text = response["state"].ToString();
 		}
 
-		private void Close_Curtain(object sender, EventArgs e)
+		private async void Close_Curtino(object sender, EventArgs e)
 		{
+			JObject data = new JObject
+			{
+				{ "deviceID", curtino },
+				{ "command", "closeCurtain" }
+			};
+			var responseTask = CurtainControls.SendMessage(data);
+			await responseTask;
 
+			JObject response = JObject.Parse(responseTask.Result);
+			CurtainStateText.Text = response["state"].ToString();
 		}
 
-		private void Stop_Curtain(object sender, EventArgs e)
+		private async void Stop_Curtino(object sender, EventArgs e)
 		{
+			JObject data = new JObject
+			{
+				{ "deviceID", curtino },
+				{ "command", "stopCurtain" }
+			};
+			var responseTask = CurtainControls.SendMessage(data);
+			await responseTask;
 
+			JObject response = JObject.Parse(responseTask.Result);
+			CurtainStateText.Text = response["state"].ToString();
 		}
 	}
 }
