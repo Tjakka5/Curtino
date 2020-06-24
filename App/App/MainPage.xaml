@@ -7,7 +7,7 @@
              x:Class="App.MainPage">
     
     <StackLayout Margin="10">
-        <Button Text="BigPeePeeESP" Clicked="OpenCurtainControls"/>
+        <Button Text="Curtino" Clicked="OpenCurtainControls"/>
         <Button Text="VirtualCurtino_0" Clicked="OpenCurtainControls"/>
         <Button Text="VirtualCurtino_1" Clicked="OpenCurtainControls"/>
         <Button Text="VirtualCurtino_2" Clicked="OpenCurtainControls"/>

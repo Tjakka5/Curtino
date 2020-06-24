@@ -53,7 +53,7 @@ client
 
     setInterval(() => {
       axios.post(`${clientConfig.serverURL}sendCommand/`, {
-        deviceID: "BigPeePeeESP",
+        deviceID: "Curtino",
         command: "getCurtainStatus"
       })
         .then((response: GetCurtainStatusResponse) => {
