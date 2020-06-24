@@ -41,21 +41,29 @@ namespace App
 
 		private async void UpdateState()
 		{
-			JObject data = new JObject
+			try
 			{
-				{ "deviceID", curtino },
-				{ "command", "getCurtainStatus" }
-			};
+				JObject data = new JObject
+				{
+					{ "deviceID", curtino },
+					{ "command", "getCurtainStatus" }
+				};
 
-			var responseTask = CurtainControls.SendMessage(data);
-			await responseTask;
+				var responseTask = CurtainControls.SendMessage(data);
+				await responseTask;
 
-			JObject response = JObject.Parse(responseTask.Result);
-			if ((bool)response["success"])
-			{
-				CurtainStateText.Text = response["status"].ToString();
-				CurrentLightValue.Text = response["lightStatus"].ToString();
+				JObject response = JObject.Parse(responseTask.Result);
+				if ((bool)response["success"])
+				{
+					CurtainStateText.Text = response["status"].ToString();
+					CurrentLightValue.Text = response["lightStatus"].ToString();
+				}
 			}
+			catch (Exception)
+			{
+
+			}
+
 		}
 
 		private async void Open_Curtino(object sender, EventArgs e)
