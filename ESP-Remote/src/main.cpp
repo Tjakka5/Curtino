@@ -25,7 +25,7 @@ int nextmillis;
 // eind opdracht c
 
 void doOpenRequest() {
-  char json[] = "{\"command\": \"openCurtain\", \"deviceID\": \"BigPeePeeESP\"}";
+  char json[] = "{\"command\": \"openCurtain\", \"deviceID\": \"Curtino\"}";
 
   if (client.connect(server, 80)) {
     Serial.println("connected to server");
@@ -42,7 +42,7 @@ void doOpenRequest() {
 }
 
 void doCloseRequest() {
-  char json[] = "{\"command\": \"closeCurtain\", \"deviceID\": \"BigPeePeeESP\"}";
+  char json[] = "{\"command\": \"closeCurtain\", \"deviceID\": \"Curtino\"}";
 
   if (client.connect(server, 80)) {
     Serial.println("connected to server");
@@ -130,9 +130,8 @@ void loop() {
   }
 
   if (millis() > nextmillis) {
-    doTempToSheets();
-
     nextmillis = millis() + intervaltime;
+    doTempToSheets();
   }
 }
 
