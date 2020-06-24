@@ -26,7 +26,7 @@ export default {
         }
         else {
             axios.post(`${clientConfig.serverURL}sendCommand/`, {
-                deviceID: "BigPeePeeESP",
+                deviceID: "Curtino",
                 command: "configureLight",
                 lightRequiredToOpen: lightRequiredToOpen,
                 lightRequiredToClose: lightRequiredToClose,

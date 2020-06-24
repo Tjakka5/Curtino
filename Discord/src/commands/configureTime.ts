@@ -32,7 +32,7 @@ export default {
             let closeTime = (closeTimeHours * 3600) + (closeTimeMinutes * 60);
 
             axios.post(`${clientConfig.serverURL}sendCommand/`, {
-                deviceID: "BigPeePeeESP",
+                deviceID: "Curtino",
                 command: "configureTime",
                 openTime: openTime,
                 closeTime: closeTime,

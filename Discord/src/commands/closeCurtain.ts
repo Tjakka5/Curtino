@@ -12,7 +12,7 @@ export default {
 
     execute: function (msg: Message, args: string[]) {
         axios.post(`${clientConfig.serverURL}sendCommand/`, {
-            deviceID: "BigPeePeeESP",
+            deviceID: "Curtino",
             command: "closeCurtain"
         })
             .then((response) => {

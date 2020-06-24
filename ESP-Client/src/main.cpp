@@ -18,7 +18,7 @@ const int closeCurtainSwitchPin = 34;
 const char *ssid = "koffiekoekjes";
 const char *password = "herriehuis";
 
-const float curtainspeed = 10.0f;
+const float curtainspeed = -10.0f;
 
 const int ldrpin = 32;
 float lightValue = 0.0f;
@@ -27,8 +27,8 @@ AsyncWebServer server(80);
 Tb6612fng motor(STBY, AIN1, AIN2, PWMA);
 WiFiClient client;
 
-char serverIP[] = "192.168.2.13";
-char json[] = "{\"deviceID\": \"Curtino\", \"deviceIP\": \"192.168.2.11\"}";
+char serverIP[] = "192.168.2.16";
+char json[] = "{\"deviceID\": \"Curtino\", \"deviceIP\": \"192.168.2.13\"}";
 
 enum States
 {
