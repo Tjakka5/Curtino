@@ -28,7 +28,7 @@ Tb6612fng motor(STBY, AIN1, AIN2, PWMA);
 WiFiClient client;
 
 char serverIP[] = "192.168.2.13";
-char json[] = "{\"deviceID\": \"BigPeePeeESP\", \"deviceIP\": \"192.168.2.11\"}";
+char json[] = "{\"deviceID\": \"Curtino\", \"deviceIP\": \"192.168.2.11\"}";
 
 enum States
 {

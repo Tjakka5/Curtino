@@ -25,7 +25,7 @@ int nextmillis;
 // eind opdracht c
 
 void doOpenRequest() {
-  char json[] = "{\"command\": \"openCurtain\", \"deviceID\": \"BigPeePeeESP\"}";
+  char json[] = "{\"command\": \"openCurtain\", \"deviceID\": \"Curtino\"}";
 
   if (client.connect(server, 80)) {
     Serial.println("connected to server");
